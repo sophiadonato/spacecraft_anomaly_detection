@@ -16,6 +16,17 @@ The followed pipeline is :
 - Smooth the error curve, apply non parametric threshold and prune false alarms to obtain prediction of anomaly seqences
 - Compare predicted anomaly to actual ones using the .csv file
 
+## Dynamic threshold explanation
+The abnormal values are those for which the error between the actual value and the predicted one (by the LSTM) is above a certain threshold. For each error curve, a threshold is determined dynamically in the following way : 
+- All thresholds looking like : $$\epsilon = \mu(err) + z * \sigma(err)$$ with z in (2.5,10.5) are tested
+- For each z, a score is computed as 
+$$s = \frac{\frac{\mu(err) - \mu(under)}{\mu(err)} + \frac{\std(err)-\std(under)}{\std(err)} }{|above| + |seq above|^2}$$
+With 
+- under : all values of the error under the proposed threshold 
+- above : all values of the error above the proposed threshold. </br>
+This score is build to have a tradeoff : 
+- numerator : if we remove the points above the thresholds, are the mean and std decreasing ? if yes, it means the above points were really far, so probably true anomalies. if the threshold is too big, nothing is above it so the mean and std don't decrease : the denominator is small and score low.
+- denominator : it counts the nb of anomaly points and the number of sequences. if the threshold is too low, everything is an anomaly, which is bad : the denominator is big and score low.  
 
 ## References
 - Dataset on Kaggle : https://www.kaggle.com/datasets/patrickfleith/nasa-anomaly-detection-dataset-smap-msl/data
