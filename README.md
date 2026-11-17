@@ -18,9 +18,9 @@ The followed pipeline is :
 
 ## Dynamic threshold explanation
 The abnormal values are those for which the error between the actual value and the predicted one (by the LSTM) is above a certain threshold. For each error curve, a threshold is determined dynamically in the following way : 
-- All thresholds looking like : $$\epsilon = \mu(err) + z * \sigma(err)$$ with z in (2.5,10.5) are tested
-- For each z, a score is computed as 
-$$s = \frac{\frac{\mu(err) - \mu(under)}{\mu(err)} + \frac{\sigma(err)-\sigma(under)}{\sigma(err)} }{|above| + |seq above|^2}$$
+- All thresholds looking like : </br> $\epsilon = \mu(err) + z * \sigma(err)$ </br> with z in (2.5,10.5) are tested
+- For each z, a score is computed as </br>
+$ s = \frac{\frac{\mu(err) - \mu(under)}{\mu(err)} + \frac{\sigma(err)-\sigma(under)}{\sigma(err)} }{|above| + |seq~above|^2}$ </br>
 With 
 - under : all values of the error under the proposed threshold 
 - above : all values of the error above the proposed threshold. </br>
