@@ -28,6 +28,12 @@ This score is build to have a tradeoff :
 - numerator : if we remove the points above the thresholds, are the mean and std decreasing ? if yes, it means the above points were really far, so probably true anomalies. if the threshold is too big, nothing is above it so the mean and std don't decrease : the denominator is small and score low.
 - denominator : it counts the nb of anomaly points and the number of sequences. if the threshold is too low, everything is an anomaly, which is bad : the denominator is big and score low.  
 
+## Pruning explanation 
+Once having the detected anomaly sequences, pruning is applied to sort out the false positives. For that, the sequences are ordered by maximal error and compared in that order to one an other. If the drop of error between one sequence and the next one is less than 13%, it means that the sequence with the smaller error is actually a false positive and is ruled out. 
+
+## Results 
+The final results are a less good than the ones presented in the paper (75% precision and 39% recall), especially for the recall, which is much lower, meaning that there are a lot of missed anomalies. This is probably due to the LSTM initialisation, which is not the same in PyTorch (here) than in Keras (paper), and therefore maybe outputs less good predicitions. The rest of the code is exactly the same (parameters and steps). 
+
 ## References
 - Dataset on Kaggle : https://www.kaggle.com/datasets/patrickfleith/nasa-anomaly-detection-dataset-smap-msl/data
 - Github repo : https://github.com/khundman/telemanom
